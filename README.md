@@ -4,10 +4,10 @@ An abstraction of the root directory of the student submissions and a set of com
 
 ## Specification
 
-This pacakge must solve the following problems
+This package must solve the following problems
 
 - TA want to see the content of certain file in the submission. The file may be in a nested archive file.
-- No standard method to perfom action over each submission.
+- No standard method to perform action over each submission.
 
 ### End-user scenarios
 
@@ -51,11 +51,25 @@ from submissions import Submissions, find_makefiles
 def create_grading_workspace(path: Path) -> None:
     handle = Submissions.get_handle(path)
     subprocess.run("cookiecutter --no-input ~/cs3560/cookiecutters/hw2-grading-workspace", shell=True, cwd=str(path))
-    
+
     makefiles = find_makefiles(path)
     for f in makefiles:
         copyfile(str(f), Path("grading-workspace") / f.name)
 
 s = Submissions("~/cs3560/submissions/hw2")
 s.map(create_grading_workspace)
+```
+
+## Development Note
+
+Install flit. Then the package can be built with the following command.
+
+```console
+flit build
+```
+
+### Development Installation
+
+```console
+flit install -s
 ```
